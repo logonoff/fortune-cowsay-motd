@@ -15,10 +15,11 @@ const fortune = () => { return fortunes[Math.floor(Math.random() * fortunes.leng
 
 app.get("/", (_, res) => {
     let output = "";
-    try { output = lolcat(cowsay.say({text : fortune()}), 1) }
+    try { output = lolcat(cowsay.say({text : fortune(), wrap: 75}), 1) }
     catch (e) { output = "lolz" }
 
     res.set("Content-Type", "text/plain");
+    res.set("X-Content-Type-Options", "nosniff");
     res.status(200).send(output);
 });
 
