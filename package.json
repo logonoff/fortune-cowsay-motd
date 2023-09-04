@@ -1,0 +1,24 @@
+{
+  "name": "fcl-motd",
+  "version": "1.0.0",
+  "description": "MOTD server displaying fortune | cowsay | lolcat",
+  "exports": "./index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "fortune",
+    "cowsay",
+    "lolcat"
+  ],
+  "author": "logonoff",
+  "license": "WTFPL",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "color-convert": "^2.0.1",
+    "cowsay": "^1.5.0",
+    "lolcatjs": "^2.4.1"
+  }
+}
