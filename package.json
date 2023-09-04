@@ -1,17 +1,21 @@
 {
-  "name": "fcl-motd",
+  "name": "fortune-cowsay-motd",
   "version": "1.0.0",
-  "description": "MOTD server displaying fortune | cowsay | lolcat",
+  "description": "MOTD server displaying fortune | cowsay",
   "exports": "./index.js",
+  "homepage": "https://motd.logonoff.co/",
   "type": "module",
+  "bugs": { 
+    "url": "https://github.com/logonoff/fortune-cowsay-motd/issues",
+    "email": "hello+fortune-cowsay-motd@logonoff.co"
+  },
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "fortune",
-    "cowsay",
-    "lolcat"
+    "cowsay"
   ],
   "author": "logonoff",
   "license": "WTFPL",
