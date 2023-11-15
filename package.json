@@ -1,11 +1,11 @@
 {
   "name": "fortune-cowsay-motd",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MOTD server displaying fortune | cowsay",
   "exports": "./index.js",
   "homepage": "https://motd.logonoff.co/",
   "type": "module",
-  "bugs": { 
+  "bugs": {
     "url": "https://github.com/logonoff/fortune-cowsay-motd/issues",
     "email": "hello+fortune-cowsay-motd@logonoff.co"
   },

@@ -1,7 +1,6 @@
 import cowsay from "cowsay";
 import { readFileSync } from "fs";
 import path from "path";
-import lolcat from "./lolcat.js";
 import express from "express";
 
 const app = express();
@@ -13,16 +12,64 @@ const fortunes = readFileSync(path.join(process.cwd(), "fortune.txt"), "utf8").s
 /** @returns {string} a fortune from fortunes global */
 const fortune = () => { return fortunes[Math.floor(Math.random() * fortunes.length)].trim() };
 
-app.get("/", (_, res) => {
-    let output = "";
-    try { output = lolcat(cowsay.say({text : fortune(), wrap: 75}), 1) }
-    catch (e) { output = "lolz" }
-
+app.get("/", (req, res) => {
     res.set("Content-Type", "text/plain");
     res.set("X-Content-Type-Options", "nosniff");
-    res.status(200).send(output);
+
+    try {
+        res.status(200).send(cowsay.say({
+            f: req.query.cow,
+            r: req.query.cow === "random",
+            e: req.query.eyes,
+            T: req.query.tongue,
+            text: fortune()
+        }))
+    } catch (e) {
+        res.status(500).send(cowsay.say({
+            text : "I'm sorry, but I don't know what to say.",
+        }));
+    }
+});
+
+app.get("/fortune", (_, res) => {
+    res.set("Content-Type", "text/plain");
+    res.set("X-Content-Type-Options", "nosniff");
+
+    try {
+        res.status(200).send(fortune());
+    } catch (e) {
+        res.status(500).send("I'm sorry, but I don't know what to say.");
+    }
+});
+
+app.get("/cowsay", (req, res) => {
+    res.set("Content-Type", "text/plain");
+    res.set("X-Content-Type-Options", "nosniff");
+
+    try {
+        res.status(200).send(cowsay.say({
+            ...req.query,
+        }))
+    } catch (e) {
+        res.status(500).send(cowsay.say({
+            text : "I'm sorry, but I don't know what to say.",
+        }));
+    }
+});
+
+app.get("/cows", (_, res) => {
+    res.set("Content-Type", "text/plain");
+    res.set("X-Content-Type-Options", "nosniff");
+
+    cowsay.list((error, cow_names) => {
+        if (error) {
+            res.status(500).send("I'm sorry, but I don't know what to say.");
+        } else if (cow_names) {
+            res.status(200).send(cow_names.join("\n"));
+        }
+    });
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server is running on port ${port}. Access via http://localhost:${port}`);
 });
