@@ -12,10 +12,25 @@ const fortunes = readFileSync(path.join(process.cwd(), "fortune.txt"), "utf8").s
 /** @returns {string} a fortune from fortunes global */
 const fortune = () => { return fortunes[Math.floor(Math.random() * fortunes.length)].trim() };
 
-app.get("/", (req, res) => {
+app.use((_, res, next) => {
+    // disable cors
+    res.set("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+    // disable caching
+    res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+
+    // send as plain text
     res.set("Content-Type", "text/plain");
     res.set("X-Content-Type-Options", "nosniff");
 
+    // remove x-powered-by
+    res.removeHeader("X-Powered-By");
+
+    next();
+});
+
+app.get("/", (req, res) => {
     try {
         res.status(200).send(cowsay.say({
             f: req.query.cow,
@@ -32,9 +47,6 @@ app.get("/", (req, res) => {
 });
 
 app.get("/fortune", (_, res) => {
-    res.set("Content-Type", "text/plain");
-    res.set("X-Content-Type-Options", "nosniff");
-
     try {
         res.status(200).send(fortune());
     } catch (e) {
@@ -43,9 +55,6 @@ app.get("/fortune", (_, res) => {
 });
 
 app.get("/cowsay", (req, res) => {
-    res.set("Content-Type", "text/plain");
-    res.set("X-Content-Type-Options", "nosniff");
-
     try {
         res.status(200).send(cowsay.say({
             ...req.query,
@@ -58,9 +67,6 @@ app.get("/cowsay", (req, res) => {
 });
 
 app.get("/cows", (_, res) => {
-    res.set("Content-Type", "text/plain");
-    res.set("X-Content-Type-Options", "nosniff");
-
     cowsay.list((error, cow_names) => {
         if (error) {
             res.status(500).send("I'm sorry, but I don't know what to say.");
