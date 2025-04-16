@@ -7,10 +7,13 @@ const app = express();
 const port = 8000;
 
 /** @type {string[]} a list of fortunes from `fortunes.txt` with newlines at the start and end */
-const fortunes = readFileSync(path.join(process.cwd(), "fortune.txt"), "utf8").split("%");
+const fortunes = readFileSync(path.join(process.cwd(), "fortune.txt"), "utf8").split("\n%\n");
 
 /** @returns {string} a fortune from fortunes global */
 const fortune = () => { return fortunes[Math.floor(Math.random() * fortunes.length)].trim() };
+
+/** error message when an error must be messaged */
+const errorMessage = "I'm sorry, but I don't know what to say."
 
 app.use((_, res, next) => {
     // disable cors
@@ -41,7 +44,7 @@ app.get("/", (req, res) => {
         }))
     } catch (e) {
         res.status(500).send(cowsay.say({
-            text : "I'm sorry, but I don't know what to say.",
+            text: errorMessage,
         }));
     }
 });
@@ -50,7 +53,7 @@ app.get("/fortune", (_, res) => {
     try {
         res.status(200).send(fortune());
     } catch (e) {
-        res.status(500).send("I'm sorry, but I don't know what to say.");
+        res.status(500).send();
     }
 });
 
@@ -61,7 +64,7 @@ app.get("/cowsay", (req, res) => {
         }))
     } catch (e) {
         res.status(500).send(cowsay.say({
-            text : "I'm sorry, but I don't know what to say.",
+            text: errorMessage,
         }));
     }
 });
@@ -69,7 +72,7 @@ app.get("/cowsay", (req, res) => {
 app.get("/cows", (_, res) => {
     cowsay.list((error, cow_names) => {
         if (error) {
-            res.status(500).send("I'm sorry, but I don't know what to say.");
+            res.status(500).send(errorMessage);
         } else if (cow_names) {
             res.status(200).send(cow_names.join("\n"));
         }
