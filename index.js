@@ -53,7 +53,7 @@ app.get("/fortune", (_, res) => {
     try {
         res.status(200).send(fortune());
     } catch (e) {
-        res.status(500).send();
+        res.status(500).send(errorMessage);
     }
 });
 
