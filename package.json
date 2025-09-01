@@ -1,6 +1,6 @@
 {
   "name": "fortune-cowsay-motd",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "MOTD server displaying fortune | cowsay",
   "exports": "./index.js",
   "homepage": "https://motd.logonoff.co/",
