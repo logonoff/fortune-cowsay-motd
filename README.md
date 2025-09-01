@@ -62,4 +62,4 @@ Returns a random `cowsay` message.
 
 ## License
 
-[WTFPL](./LICENSE.md)
+[WTFPL](http://www.wtfpl.net/)
