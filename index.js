@@ -4,7 +4,7 @@ import path from "path";
 import express from "express";
 
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8000;
 
 /** @type {string[]} a list of fortunes from `fortunes.txt` with newlines at the start and end */
 const fortunes = readFileSync(path.join(process.cwd(), "fortune.txt"), "utf8").split("\n%\n");
